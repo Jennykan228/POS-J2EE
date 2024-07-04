@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE glassfish-ejb-jar PUBLIC "-//GlassFish.org//DTD GlassFish Application Server 3.1 EJB 3.1//EN" "http://glassfish.org/dtds/glassfish-ejb-jar_3_1-1.dtd">
+<glassfish-ejb-jar>
+    <!-- 1. role mapping setup for ADMIN to superuser in DB -->
+   <security-role-mapping>
+    <role-name>ADMIN</role-name>
+    <group-name>superuser</group-name>
+  </security-role-mapping>
+    <!-- 2. role mapping setup for STAFF to superuser, manager, staff in DB -->
+  <security-role-mapping>
+    <role-name>STAFF</role-name>
+    <group-name>superuser</group-name>
+    <group-name>manager</group-name>
+    <group-name>staff</group-name>
+  </security-role-mapping>
+   
+    <enterprise-beans>
+        <ejb>
+            <ejb-name>OrderMgt</ejb-name>
+            <!-- 3. security setup for OrderMgt bean to corresponding glassfish Realm -->
+             <ior-security-config>
+                <as-context>
+                    <auth-method>USERNAME_PASSWORD</auth-method>
+                    <realm>cafedemetroRealm</realm>
+                    <required>true</required>
+                </as-context>
+                <sas-context>
+                    <caller-propagation>SUPPORTED</caller-propagation>
+                </sas-context>
+            </ior-security-config>
+        </ejb>
+    </enterprise-beans>
+</glassfish-ejb-jar>
